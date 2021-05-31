@@ -1,6 +1,6 @@
 // Write your Character component here
 import axios from "axios";
-// import { createResponseComposition } from "msw";
+import { createResponseComposition } from "msw";
 import React, { useEffect, useState } from "react";
 import styled from 'styled-components';
 
