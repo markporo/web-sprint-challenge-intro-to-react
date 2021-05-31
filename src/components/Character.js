@@ -52,6 +52,16 @@ h2 {
 export default function Character({ ...props }) {
 
     const [homeRef, setHomeRef] = useState();
+    const [statsSeen, setStatsSeen] = useState(false);
+
+    const showStats = () => {
+        console.log(statsSeen, "statsSeen 1st");
+        setStatsSeen(function (prevValue) {
+            console.log(prevValue, "prevalue 2nd")
+            console.log(!prevValue, "opposite of prevalue -- 3rd")
+            return !prevValue;
+        })
+    };
 
     useEffect(() => {
         axios.get(props.home)
@@ -65,8 +75,8 @@ export default function Character({ ...props }) {
     })
 
     return (<StyledDivContainer>
-        <header><h2>{props.name}</h2><button> Character Stats</button></header>
-        <section>
+        <header><h2>{props.name}</h2><button onClick={showStats}> Toggle Stats</button></header>
+        <section style={{ display: statsSeen ? "block" : "none" }}>
             <p><span>From:</span> {homeRef}</p>
             <p><span>Birthday:</span> {props.birthdate}</p>
             <p><span>Movies Featured in:</span> {props.films.map(eachFilm => { return `${eachFilm}, ` })}</p>
