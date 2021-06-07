@@ -2,89 +2,21 @@
 import axios from "axios";
 import { createResponseComposition } from "msw";
 import React, { useEffect, useState } from "react";
-import styled from 'styled-components';
+import Stats from './Stats';
 
-//styled Div
-const StyledDivContainer = styled.div`
-
-background-color: whiteSmoke;
-width: 70%;
-margin: 0 auto;
-padding: 15px;
-border: 2px solid black;
-
-section {
-    text-align: left;
-    margin-left: 40px;
-    ${'' /* display: none; */}
-}
-
-span {
-    font-weight: bold;
-}
-
-header {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-around;
-    align-items: center;
-    margin-left: 40px;
-}
-
-button {
-    height: 40px;
-    background-color: lightblue;
-     &:hover{
-     transform: scale(1.05);
-     background-color: black;
-     color: lightblue;
-     }
-}
-
-h2 {
-    font-size: 2rem;
-}
-`
-
-
-
-
-export default function Character({ ...props }) {
-
-    const [homeRef, setHomeRef] = useState();
-    const [statsSeen, setStatsSeen] = useState(false);
-
-    const showStats = () => {
-        console.log(statsSeen, "statsSeen 1st");
-        setStatsSeen(function (prevValue) {
-            console.log(prevValue, "prevalue 2nd")
-            console.log(!prevValue, "opposite of prevalue -- 3rd")
-            return !prevValue;
-        })
-    };
+export default function Character() {
+    const [characters, setCharacters] = useState([]);
 
     useEffect(() => {
-        axios.get(props.home)
+        axios.get("https://swapi.dev/api/people/")
             .then(res => {
-                console.log(res.data.name)
-                setHomeRef(res.data.name);
+                setCharacters(res.data);
+                console.log(res.data, "app js line 28");
             })
             .catch(err => {
-                console.log(err)
+                console.log(err);
             })
-    })
+    }, [])
 
-    return (<StyledDivContainer>
-        <header><h2>{props.name}</h2><button onClick={showStats}> Toggle Stats</button></header>
-        <section style={{ display: statsSeen ? "block" : "none" }}>
-            <p><span>From:</span> {homeRef}</p>
-            <p><span>Birthday:</span> {props.birthdate}</p>
-            <p><span>Movies Featured in:</span> {props.films.map(eachFilm => { return `${eachFilm}, ` })}</p>
-            <p><span>Height:</span> {props.height} cm</p>
-            <p><span>Skin Type:</span> {props.skin}</p>
-            <p><span>Hair Color:</span> {props.hair}</p>
-            <p><span>Eye Color:</span> {props.eyes}</p>
-        </section>
-
-    </StyledDivContainer>)
+    return (<div>{characters.map((char) => { return <Stats key={char.name + char.url} char={char} /> })}</div>);
 }
