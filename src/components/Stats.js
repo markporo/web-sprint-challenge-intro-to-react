@@ -26,10 +26,10 @@ export default function Stats({ eachChar }) {
         axios
             .get(`${eachChar.homeworld}`)
             .then(res => {
-                console.log(res.data)
+                //console.log(res.data)
                 setHome(res.data.name);
             })
-    })
+    }, [eachChar]);
 
 
     return (<div>

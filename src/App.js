@@ -14,13 +14,13 @@ const App = () => {
   // side effect in a component, you want to think about which state and/or props it should
   // sync up with, if any.
   useEffect(() => {
-    console.log(characters, 'characters array changed')
+    //console.log(characters, 'characters array changed')
     axios
       .get(`https://swapi.dev/api/people`)
       .then(res => {
         setCharacters(res.data);
       })
-  }, [characters]); // put a variable here so we run again when it changes
+  }, []); // put a variable here so we run again when it changes
 
 
   return (
